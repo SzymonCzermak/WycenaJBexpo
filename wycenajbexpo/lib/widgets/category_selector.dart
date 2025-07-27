@@ -21,7 +21,6 @@ class _CategorySelectorState extends State<CategorySelector> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Kategoria
         DropdownButton<String>(
           hint: const Text('Wybierz kategorię'),
           value: selectedCategory,
@@ -41,8 +40,6 @@ class _CategorySelectorState extends State<CategorySelector> {
             });
           },
         ),
-
-        // Opcja
         if (selectedCategory != null)
           DropdownButton<Map<String, dynamic>>(
             hint: const Text('Wybierz opcję'),
@@ -61,8 +58,6 @@ class _CategorySelectorState extends State<CategorySelector> {
               });
             },
           ),
-
-        // Ilość i cena
         if (selectedOption != null)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
@@ -99,6 +94,7 @@ class _CategorySelectorState extends State<CategorySelector> {
                     final item = ItemModel(
                       category: selectedCategory!,
                       name: selectedOption!['name'],
+                      nameEn: selectedOption!['nameEn'], // ← TO JEST KLUCZOWE!
                       quantity: quantity,
                       unit: selectedOption!['unit'],
                       priceBrutto: priceBrutto,

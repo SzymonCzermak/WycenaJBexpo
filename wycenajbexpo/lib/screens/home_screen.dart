@@ -20,8 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void generatePdf() {
-    PdfGenerator.generateInvoice(selectedItems);
+  void generatePdf({required bool isEnglish}) {
+    PdfGenerator.generateQuote(selectedItems, isEnglish: isEnglish);
   }
 
   @override
@@ -74,7 +74,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                SummaryCard(items: selectedItems),
+                SummaryCard(
+                  items: selectedItems,
+                  onItemEdited: (updatedItem, index) {
+                    setState(() {
+                      selectedItems[index] = updatedItem;
+                    });
+                  },
+                ),
                 const SizedBox(height: 24),
               ],
             ],
@@ -82,11 +89,23 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: selectedItems.isNotEmpty
-          ? FloatingActionButton.extended(
-              onPressed: generatePdf,
-              label: const Text('Generuj PDF'),
-              icon: const Icon(Icons.picture_as_pdf),
-              backgroundColor: Colors.deepPurple,
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                FloatingActionButton.extended(
+                  onPressed: () => generatePdf(isEnglish: false),
+                  label: const Text('PDF (PL)'),
+                  icon: const Icon(Icons.picture_as_pdf),
+                  backgroundColor: Colors.deepPurple,
+                ),
+                const SizedBox(width: 10),
+                FloatingActionButton.extended(
+                  onPressed: () => generatePdf(isEnglish: true),
+                  label: const Text('PDF (EN)'),
+                  icon: const Icon(Icons.language),
+                  backgroundColor: Colors.deepPurple,
+                ),
+              ],
             )
           : null,
     );
